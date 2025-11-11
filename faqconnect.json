@@ -11,6 +11,12 @@
     "pergunta": "quem desenvolveu o connect+",
     "resposta": "Desenvolvido para a CTI Brasil, provedora de internet corporativa."
   },
+
+  {
+  "pergunta": "Aplicativo",
+  "resposta": "Aplicativo AR da CTI que orienta clientes em avaliações técnicas remotas e gamificadas."
+  },
+
   {
     "pergunta": "como funciona o connect+",
     "resposta": "Orienta o cliente a capturar fotos e medições AR para avaliação técnica remota."

@@ -19,7 +19,7 @@ function buscarRespostaLocal(perguntaUsuario) {
   let encontrada = faq.find(f => texto.includes(f.pergunta.toLowerCase()));
   if (encontrada) return encontrada;
 
-  const palavras = texto.split(" ").filter(p => p.length > 2);
+  const palavras = texto.split(" ").filter(p => pA.length > 2);
   const correspondencias = faq.map(f => {
     const p = f.pergunta.toLowerCase();
     const pontos = palavras.reduce(
