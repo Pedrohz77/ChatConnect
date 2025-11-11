@@ -41,8 +41,7 @@ app.post("/api/chat", async (req, res) => {
   try {
     const { messages } = req.body;
     const ultimaMensagem = messages?.[messages.length - 1]?.content || "";
-
-    
+ 
     const local = buscarRespostaLocal(ultimaMensagem);
     if (local) {
       return res.json({
@@ -51,22 +50,21 @@ app.post("/api/chat", async (req, res) => {
       });
     }
 
-    // Caso não encontre no FAQ, chama GPT
     const systemPrompt = `
       Você é a assistente virtual da Connect+, aplicativo criado para CTI Brasil — provedor de internet corporativa.
 
-    Sua função é ajudar clientes e técnicos da CTI com:
-    - Instalação e suporte de links dedicados e internet corporativa.
-    - Uso do aplicativo Connect+ (avaliações técnicas, modo AR, fotos, medições e checklists).
-    - Explicações institucionais: missão, valores e funcionamento da CTI.
-    - Orientações sobre coleta de evidências e envio de dados pelo Connect+.
+      Sua função é ajudar clientes e técnicos da CTI com:
+      - Instalação e suporte de links dedicados e internet corporativa.
+      - Uso do aplicativo Connect+ (avaliações técnicas, modo AR, fotos, medições e checklists).
+      - Explicações institucionais: missão, valores e funcionamento da CTI.
+      - Orientações sobre coleta de evidências e envio de dados pelo Connect+.
 
-    🔹 Regras:
-    - Responda com no máximo **15 palavras**.
-    - Mantenha **tom profissional, educado e confiante**.
-    - Se o usuário perguntar sobre outro tema (esporte, política, clima etc.), diga:
-      “Posso ajudar apenas com temas da CTI e suporte técnico corporativo.”
-    - Sempre que possível, mencione o **app Connect+** nas orientações.
+      🔹 Regras:
+      - Responda com no máximo **15 palavras**.
+      - Mantenha **tom profissional, educado e confiante**.
+      - Se o usuário perguntar sobre outro tema (esporte, política, clima etc.), diga:
+        “Posso ajudar apenas com temas da CTI e suporte técnico corporativo.”
+      - Sempre que possível, mencione o **app Connect+** nas orientações.
     `;
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -96,10 +94,15 @@ app.post("/api/chat", async (req, res) => {
       assistant,
       usage: data.usage || { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 }
     });
+
   } catch (err) {
     console.error("Erro no servidor:", err);
     return res.status(500).json({ error: "Erro no servidor." });
   }
+});
+
+app.get("/", (req, res) => {
+  res.send("Servidor ChatConnect ativo e online!");
 });
 
 const PORT = process.env.PORT || 3000;
