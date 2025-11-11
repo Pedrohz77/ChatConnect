@@ -1,0 +1,222 @@
+[
+  {
+    "pergunta": "o que é o connect+",
+    "resposta": "Aplicativo AR da CTI que orienta clientes em avaliações técnicas remotas e gamificadas."
+  },
+  {
+    "pergunta": "qual o objetivo do connect+",
+    "resposta": "Reduzir visitas técnicas e aumentar eficiência e confiança nas avaliações de links de internet."
+  },
+  {
+    "pergunta": "quem desenvolveu o connect+",
+    "resposta": "Desenvolvido para a CTI Brasil, provedora de internet corporativa."
+  },
+  {
+    "pergunta": "como funciona o connect+",
+    "resposta": "Orienta o cliente a capturar fotos e medições AR para avaliação técnica remota."
+  },
+  {
+    "pergunta": "quem é a bella",
+    "resposta": "Assistente virtual da CTI que guia o usuário durante a avaliação AR."
+  },
+  {
+    "pergunta": "o que é avaliação técnica remota",
+    "resposta": "Processo de verificação do ambiente feito pelo cliente via aplicativo AR."
+  },
+  {
+    "pergunta": "como iniciar a avaliação",
+    "resposta": "Abra o app e siga as instruções da Bella para iniciar o checklist."
+  },
+  {
+    "pergunta": "como ativar o modo ar",
+    "resposta": "Permita acesso à câmera e aponte para o ambiente a ser analisado."
+  },
+  {
+    "pergunta": "como medir o ambiente",
+    "resposta": "Aponte a câmera e siga os pontos indicados pela Bella para medir."
+  },
+  {
+    "pergunta": "como tirar fotos",
+    "resposta": "Aponte para o ponto de rede e capture imagens nítidas e completas."
+  },
+  {
+    "pergunta": "o que fotografar",
+    "resposta": "Fotografe cabos, roteadores, tomadas e pontos de rede claramente."
+  },
+  {
+    "pergunta": "como enviar as fotos",
+    "resposta": "Após revisar, clique em Enviar para enviar ao dashboard técnico da CTI."
+  },
+  {
+    "pergunta": "como funciona o checklist",
+    "resposta": "Passos guiados pela Bella para registrar fotos, medidas e riscos corretamente."
+  },
+  {
+    "pergunta": "o que é triagem automática",
+    "resposta": "O app analisa as evidências e detecta possíveis problemas antes da validação técnica."
+  },
+  {
+    "pergunta": "o que é dashboard técnico",
+    "resposta": "Painel interno da CTI que exibe relatórios e status das avaliações."
+  },
+  {
+    "pergunta": "como ver o resultado da avaliação",
+    "resposta": "A Bella mostra o status e envia feedback após a validação técnica."
+  },
+  {
+    "pergunta": "quais tecnologias o aplicativo, connect+ usa",
+    "resposta": "ARKit, ARCore, integração com sistemas CTI e dashboard web técnico."
+  },
+  {
+    "pergunta": "quem são os parceiros da cti",
+    "resposta": "CTI trabalha com Fortinet, Kaspersky e Ruckus Wireless."
+  },
+  {
+    "pergunta": "como ganhar selos de precisão",
+    "resposta": "Conclua as etapas corretamente e envie fotos e medições completas."
+  },
+  {
+    "pergunta": "o que fazer se o modo ar falhar",
+    "resposta": "Reinicie o modo AR e verifique a iluminação e sensores da câmera."
+  },
+  {
+    "pergunta": "quais são os riscos comuns",
+    "resposta": "Riscos de medição incorreta, fotos desfocadas ou má interpretação automática."
+  },
+  {
+    "pergunta": "o que é o modo gamificado",
+    "resposta": "Sistema com recompensas e progressão para engajar o usuário durante a coleta."
+  },
+  {
+    "pergunta": "quem pode usar o connect+",
+    "resposta": "Clientes da CTI e técnicos que desejam realizar avaliações remotas."
+  },
+  {
+    "pergunta": "preciso de internet para usar o app",
+    "resposta": "Sim, é necessário conexão ativa para enviar evidências e relatórios."
+  },
+  {
+    "pergunta": "posso usar em iphone e android",
+    "resposta": "Sim, o Connect+ está disponível para iOS e Android compatíveis com AR."
+  },
+  {
+    "pergunta": "como medir altura e largura",
+    "resposta": "Aponte a câmera para os cantos do ambiente e siga as instruções."
+  },
+  {
+    "pergunta": "como marcar pontos de risco",
+    "resposta": "Selecione o ícone de perigo e toque no local identificado na imagem."
+  },
+  {
+    "pergunta": "como preencher o formulário de registro",
+    "resposta": "Informe dados do local e tipo de link conforme orientação da Bella."
+  },
+  {
+    "pergunta": "como revisar fotos antes de enviar",
+    "resposta": "Acesse a galeria do app e confirme se todas as etapas foram concluídas."
+  },
+  {
+    "pergunta": "o que é link dedicado",
+    "resposta": "Conexão exclusiva da CTI com maior estabilidade e garantia de banda."
+  },
+  {
+    "pergunta": "como reduzir custos operacionais",
+    "resposta": "Utilize o Connect+ para diminuir visitas presenciais e agilizar diagnósticos."
+  },
+  {
+    "pergunta": "qual o diferencial da cti",
+    "resposta": "Atendimento corporativo especializado e uso de tecnologias avançadas."
+  },
+  {
+    "pergunta": "como acessar suporte técnico",
+    "resposta": "Entre em contato pelo app ou pelos canais oficiais da CTI."
+  },
+  {
+    "pergunta": "o que fazer se a conexão estiver lenta",
+    "resposta": "Reinicie o roteador e verifique cabos antes de contatar o suporte."
+  },
+  {
+    "pergunta": "como reportar um problema",
+    "resposta": "Use a opção Suporte no app para enviar detalhes e evidências do problema."
+  },
+  {
+    "pergunta": "posso editar uma medição",
+    "resposta": "Sim, revise e repita a medição antes de enviar ao sistema."
+  },
+  {
+    "pergunta": "o que fazer se o envio falhar",
+    "resposta": "Verifique sua internet e tente reenviar os dados mais tarde."
+  },
+  {
+    "pergunta": "como saber se enviei tudo",
+    "resposta": "A Bella confirma o envio completo e mostra o status da triagem."
+  },
+  {
+    "pergunta": "como o connect+ ajuda a equipe técnica",
+    "resposta": "Envia evidências automáticas e relatórios para análise remota eficiente."
+  },
+  {
+    "pergunta": "como é feito o feedback",
+    "resposta": "O técnico valida e a Bella informa se há ajustes ou se está aprovado."
+  },
+  {
+    "pergunta": "o que é relatório pré-técnico",
+    "resposta": "Relatório automático com dados preliminares da triagem feita pelo app."
+  },
+  {
+    "pergunta": "o que é integração com sistema interno",
+    "resposta": "O Connect+ envia dados diretamente para o dashboard técnico da CTI."
+  },
+  {
+    "pergunta": "quanto tempo dura uma avaliação",
+    "resposta": "Em média, poucos minutos dependendo do número de cômodos avaliados."
+  },
+  {
+    "pergunta": "como saber se meu celular é compatível",
+    "resposta": "Verifique se seu dispositivo suporta ARKit (iOS) ou ARCore (Android)."
+  },
+  {
+    "pergunta": "o que é o fluxo de avaliação",
+    "resposta": "Etapas que vão da abertura do app até o envio das evidências."
+  },
+  {
+    "pergunta": "como iniciar o fluxo",
+    "resposta": "Abra o Connect+, aceite permissões e siga as instruções da Bella."
+  },
+  {
+    "pergunta": "como funciona a triagem automática",
+    "resposta": "Analisa iluminação, estabilidade e visada das fotos antes da análise técnica."
+  },
+  {
+    "pergunta": "quais são as etapas da semana 1",
+    "resposta": "Captura de planta, marcação de riscos e fotos de todos os cômodos."
+  },
+  {
+    "pergunta": "quais são as etapas da semana 2",
+    "resposta": "Ajustes finais, revisão e envio completo das evidências coletadas."
+  },
+  {
+    "pergunta": "como revisar medições e fotos",
+    "resposta": "Use a tela de revisão da Bella antes do envio final."
+  },
+  {
+    "pergunta": "como marcar caminhos até o cpd",
+    "resposta": "Utilize o modo AR para desenhar o trajeto no ambiente."
+  },
+  {
+    "pergunta": "como marcar pontos de perigo",
+    "resposta": "Selecione o ícone de alerta e toque no local do risco."
+  },
+  {
+    "pergunta": "quais são os erros comuns",
+    "resposta": "Fotos desfocadas, medições incompletas ou falta de iluminação adequada."
+  },
+  {
+    "pergunta": "como evitar erros",
+    "resposta": "Siga todas as instruções da Bella e revise antes de enviar."
+  },
+  {
+    "pergunta": "como conseguir ajuda no app",
+    "resposta": "Use o botão Ajuda ou fale com o suporte da CTI."
+  }
+]
