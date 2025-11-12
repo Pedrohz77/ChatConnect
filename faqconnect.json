@@ -13,8 +13,8 @@
   },
 
   {
-  "pergunta": "Aplicativo",
-  "resposta": "Aplicativo AR da CTI que orienta clientes em avaliações técnicas remotas e gamificadas."
+    "pergunta": "Aplicativo",
+    "resposta": "Aplicativo AR da CTI que orienta clientes em avaliações técnicas remotas e gamificadas."
   },
 
   {
@@ -24,6 +24,14 @@
   {
     "pergunta": "quem é a bella",
     "resposta": "Assistente virtual da CTI que guia o usuário durante a avaliação AR."
+  },
+  {
+    "pergunta": "A CTI atende residências?",
+    "resposta": "A CTI é focada em soluções empresariais e corporativas, não residenciais."
+  },
+  {
+    "pergunta": "Quais serviços oferece?",
+    "resposta": "A CTI oferece internet corporativa, link dedicado, rede privada e suporte técnico especializado."
   },
   {
     "pergunta": "o que é avaliação técnica remota",
@@ -192,14 +200,6 @@
   {
     "pergunta": "como funciona a triagem automática",
     "resposta": "Analisa iluminação, estabilidade e visada das fotos antes da análise técnica."
-  },
-  {
-    "pergunta": "quais são as etapas da semana 1",
-    "resposta": "Captura de planta, marcação de riscos e fotos de todos os cômodos."
-  },
-  {
-    "pergunta": "quais são as etapas da semana 2",
-    "resposta": "Ajustes finais, revisão e envio completo das evidências coletadas."
   },
   {
     "pergunta": "como revisar medições e fotos",

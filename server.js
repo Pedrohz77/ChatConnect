@@ -12,59 +12,99 @@ app.use(cors());
 
 const faq = JSON.parse(fs.readFileSync("./faqconnect.json", "utf-8"));
 
-function buscarRespostaLocal(perguntaUsuario) {
+function buscarMelhoresRespostas(perguntaUsuario) {
   const texto = perguntaUsuario.toLowerCase().trim();
-  if (!texto) return null;
+  if (!texto) return [];
 
-  let encontrada = faq.find(f => texto.includes(f.pergunta.toLowerCase()));
-  if (encontrada) return encontrada;
+  const sinonimos = {
+    "app": "aplicativo",
+    "apps": "aplicativo",
+    "software": "aplicativo",
+    "sistema": "aplicativo",
+    "connect+": "connect",
+  };
 
-  const palavras = texto.split(" ").filter(p => pA.length > 2);
+  let textoNormalizado = texto;
+  for (const [chave, valor] of Object.entries(sinonimos)) {
+    textoNormalizado = textoNormalizado.replaceAll(chave, valor);
+  }
+
+  const palavras = textoNormalizado.split(" ").filter(p => p.length > 2);
   const correspondencias = faq.map(f => {
-    const p = f.pergunta.toLowerCase();
+    const perguntaFaq = f.pergunta.toLowerCase();
     const pontos = palavras.reduce(
-      (acc, palavra) => acc + (p.includes(palavra) ? 1 : 0),
+      (acc, palavra) => acc + (perguntaFaq.includes(palavra) ? 1 : 0),
       0
     );
-    return { ...f, pontos };
+
+    let bonus = 0;
+    if (
+      (textoNormalizado.includes("aplicativo") && perguntaFaq.includes("connect")) ||
+      (textoNormalizado.includes("connect") && perguntaFaq.includes("aplicativo"))
+    ) bonus = 2;
+
+    return { ...f, pontos: pontos + bonus };
   });
 
-  correspondencias.sort((a, b) => b.pontos - a.pontos);
-  const melhor = correspondencias[0];
-
-  if (melhor && melhor.pontos > 0) return melhor;
-
-  return null;
+  return correspondencias.sort((a, b) => b.pontos - a.pontos).slice(0, 5);
 }
 
 app.post("/api/chat", async (req, res) => {
   try {
     const { messages } = req.body;
     const ultimaMensagem = messages?.[messages.length - 1]?.content || "";
- 
-    const local = buscarRespostaLocal(ultimaMensagem);
-    if (local) {
+
+    const perguntasGenericas = [
+      "e agora", "o que faço", "o que eu faço", "pronto",
+      "enviei tudo", "já terminei", "terminei", "o que vem depois",
+      "o que devo fazer", "depois disso", "finalizei"
+    ];
+
+    const generica = perguntasGenericas.find(p =>
+      ultimaMensagem.toLowerCase().includes(p)
+    );
+
+    if (generica) {
       return res.json({
-        assistant: { role: "assistant", content: local.resposta },
+        assistant: {
+          role: "assistant",
+          content: "Após enviar tudo, confirme se os dados foram recebidos no dashboard técnico Connect+."
+        },
         usage: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 }
       });
     }
 
-    const systemPrompt = `
-      Você é a assistente virtual da Connect+, aplicativo criado para CTI Brasil — provedor de internet corporativa.
+    const melhores = buscarMelhoresRespostas(ultimaMensagem);
 
-      Sua função é ajudar clientes e técnicos da CTI com:
+    if (melhores[0] && melhores[0].pontos > 2) {
+      return res.json({
+        assistant: { role: "assistant", content: melhores[0].resposta },
+        usage: { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 }
+      });
+    }
+
+    const contexto = melhores
+      .map((f, i) => `#${i + 1} Pergunta: ${f.pergunta}\nResposta: ${f.resposta}`)
+      .join("\n\n");
+
+    const systemPrompt = `
+    Você é a assistente virtual da Connect+, aplicativo criado para CTI Brasil — provedor de internet corporativa.
+
+    Sua função é ajudar clientes e técnicos da CTI com:
       - Instalação e suporte de links dedicados e internet corporativa.
       - Uso do aplicativo Connect+ (avaliações técnicas, modo AR, fotos, medições e checklists).
       - Explicações institucionais: missão, valores e funcionamento da CTI.
       - Orientações sobre coleta de evidências e envio de dados pelo Connect+.
 
-      🔹 Regras:
-      - Responda com no máximo **15 palavras**.
-      - Mantenha **tom profissional, educado e confiante**.
+    Use APENAS as informações abaixo para responder:
+    ${contexto}
+
+    Regras:
+      - Responda com no máximo 15 palavras.
+      - Mantenha tom profissional, educado e confiante.
       - Se o usuário perguntar sobre outro tema (esporte, política, clima etc.), diga:
         “Posso ajudar apenas com temas da CTI e suporte técnico corporativo.”
-      - Sempre que possível, mencione o **app Connect+** nas orientações.
+      - Sempre que possível, mencione o app Connect+ nas orientações.
     `;
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -75,7 +115,10 @@ app.post("/api/chat", async (req, res) => {
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
-        messages: [{ role: "system", content: systemPrompt }, ...messages],
+        messages: [
+          { role: "system", content: systemPrompt },
+          ...messages
+        ],
         max_tokens: 30,
         temperature: 0.4
       })
@@ -106,4 +149,6 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor rodando em http://localhost:${PORT}`));
+app.listen(PORT, () =>
+  console.log(`Servidor rodando em http://localhost:${PORT}`)
+);
