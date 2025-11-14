@@ -38,10 +38,6 @@ function buscarMelhoresRespostas(perguntaUsuario) {
     );
 
     let bonus = 0;
-    if (
-      (textoNormalizado.includes("aplicativo") && perguntaFaq.includes("connect")) ||
-      (textoNormalizado.includes("connect") && perguntaFaq.includes("aplicativo"))
-    ) bonus = 2;
 
     return { ...f, pontos: pontos + bonus };
   });
