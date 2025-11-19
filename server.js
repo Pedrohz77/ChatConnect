@@ -51,9 +51,21 @@ app.post("/api/chat", async (req, res) => {
     const ultimaMensagem = messages?.[messages.length - 1]?.content || "";
 
     const perguntasGenericas = [
-      "e agora", "o que faço", "o que eu faço", "pronto",
-      "enviei tudo", "já terminei", "terminei", "o que vem depois",
-      "o que devo fazer", "depois disso", "finalizei"
+        "e agora",
+        "o que faço",
+        "o que eu faço",
+        "o que fazer",
+        "e agora o que faço",
+        "pronto",
+        "finalizei",
+        "terminei",
+        "acabei",
+        "já terminei",
+        "enviei tudo",
+        "acabei tudo",
+        "o que vem depois",
+        "o que devo fazer",
+        "depois disso"
     ];
 
     const generica = perguntasGenericas.find(p =>
@@ -103,14 +115,21 @@ app.post("/api/chat", async (req, res) => {
       - Sempre que possível, mencione o app Connect+ nas orientações.
     `;
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    
+    const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
+    const apiKey = process.env.AZURE_OPENAI_KEY;
+    const deploymentName = process.env.AZURE_OPENAI_DEPLOYMENT_NAME;
+    const apiVersion = process.env.AZURE_OPENAI_API_VERSION;
+
+    const url = `${endpoint}/openai/deployments/${deploymentName}/chat/completions?api-version=${apiVersion}`;
+
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+        "api-key": apiKey
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
         messages: [
           { role: "system", content: systemPrompt },
           ...messages
@@ -120,13 +139,31 @@ app.post("/api/chat", async (req, res) => {
       })
     });
 
-    const data = await response.json();
-    const assistant = data.choices?.[0]?.message ?? {
+    const raw = await response.text();
+    let data;
+
+    try {
+      data = JSON.parse(raw);
+    } catch (err) {
+      console.error("ERRO JSON:", raw);
+      return res.json({
+        assistant: { role: "assistant", content: "Erro no retorno da Azure: " + raw }
+      });
+    }
+
+    if (!response.ok) {
+      console.error("ERRO AZURE:", data);
+      return res.json({
+        assistant: { role: "assistant", content: "Erro Azure: " + (data.error?.message || raw) }
+      });
+    }
+    
+      const assistant = data.choices?.[0]?.message ?? {
       role: "assistant",
       content: "Erro ao gerar resposta."
     };
 
-    console.log("Resposta GPT:", assistant.content);
+    console.log("Resposta GPT Azure:", assistant.content);
     console.log("Tokens usados:", data.usage);
 
     return res.json({
