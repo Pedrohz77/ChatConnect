@@ -1,0 +1,59 @@
+{
+  "informacoes_gerais": {
+    "nome_projeto": "Connect+",
+    "tipo_produto": "Aplicativo móvel com Realidade Aumentada (AR) e interface gamificada",
+    "empresa": "CTI Brasil",
+    "versao": "Beta",
+    "equipe_principal": "[Preencher: desenvolvimento, design, QA, equipe técnica CTI]",
+    "stakeholders": ["TI", "operações", "atendimento ao cliente", "CTI Brasil"]
+  },
+
+  "conceito_pitch": "Aplicativo AR gamificado que orienta clientes na avaliação preliminar da viabilidade de links de internet, capturando fotos, vídeos e medidas com checklists interativos, trazendo dados automaticamente e enviando para validação técnica, reduzindo visitas presenciais e aumentando eficiência operacional e engajamento do cliente.",
+
+  "problem_statement": {
+    "problemas": [
+      "Avaliação técnica depende de visitas presenciais",
+      "Alto custo de transporte e tempo de avaliação",
+      "Comunicação remota ineficiente e baixa confiança"
+    ],
+    "impacto": "Atraso em diagnósticos, aumento de custos e insatisfação do cliente"
+  },
+
+  "objetivos": [
+    "Reduzir custo operacional e tempo de análise",
+    "Melhorar experiência e confiança do cliente",
+    "Aumentar capacidade de atendimento sem aumentar técnicos",
+    "Criar diferencial competitivo com gamificação e AR"
+  ],
+
+  "publico_alvo": [
+    "Clientes buscando instalação ou correção de links de internet",
+    "Equipes técnicas da CTI",
+    "Usuários urbanos e rurais com smartphones compatíveis com AR"
+  ],
+
+
+  "user_journey": {
+    "abertura_app": "Assistente Bella apresenta o fluxo e instruções.",
+    "informacoes_local": "Usuário preenche dados do local e tipo de link.",
+    "captura_evidencias": "Fotos, vídeos e medições AR com feedback visual.",
+    "triagem_automatica": "App detecta problemas e gera relatório pré-técnico.",
+    "envio_validacao": "Evidências enviadas ao dashboard técnico.",
+    "feedback_usuario": "Cliente recebe confirmação ou novos passos com gamificação."
+  },
+
+  "riscos": [
+    "Erro na acurácia das medições AR",
+    "Interpretação incorreta das evidências",
+    "Dispositivos incompatíveis com AR"
+  ],
+
+  "tecnologias": [
+    "ARKit",
+    "ARCore",
+    "App Mobile (iOS/Android)",
+    "Backend de integração com sistema CTI",
+    "Banco de dados para armazenar evidências",
+    "Dashboard web técnico"
+  ]
+}

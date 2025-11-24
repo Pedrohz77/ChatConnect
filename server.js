@@ -12,6 +12,40 @@ app.use(cors());
 
 const faq = JSON.parse(fs.readFileSync("./faqconnect.json", "utf-8"));
 
+const gdd = JSON.parse(fs.readFileSync("./gdd.json", "utf-8"));
+
+function buscarInfosGDD(pergunta) {
+  const texto = pergunta.toLowerCase();
+  const palavras = texto.split(" ").filter(p => p.length > 3);
+
+  const trechos = [];
+
+  function explorar(obj, caminho = "") {
+    if (typeof obj === "string") {
+      const score = palavras.reduce((acc, p) => acc + (obj.toLowerCase().includes(p) ? 1 : 0), 0);
+      if (score > 0) trechos.push({ caminho, conteudo: obj, score });
+      return;
+    }
+
+    if (Array.isArray(obj)) {
+      obj.forEach((item, i) => explorar(item, `${caminho}[${i}]`));
+      return;
+    }
+
+    if (typeof obj === "object" && obj !== null) {
+      Object.entries(obj).forEach(([key, value]) =>
+        explorar(value, `${caminho}.${key}`)
+      );
+    }
+  }
+
+  explorar(gdd);
+
+  return trechos
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3);
+}
+
 function buscarMelhoresRespostas(perguntaUsuario) {
   const texto = perguntaUsuario.toLowerCase().trim();
   if (!texto) return [];
@@ -37,9 +71,7 @@ function buscarMelhoresRespostas(perguntaUsuario) {
       0
     );
 
-    let bonus = 0;
-
-    return { ...f, pontos: pontos + bonus };
+    return { ...f, pontos };
   });
 
   return correspondencias.sort((a, b) => b.pontos - a.pontos).slice(0, 5);
@@ -51,21 +83,10 @@ app.post("/api/chat", async (req, res) => {
     const ultimaMensagem = messages?.[messages.length - 1]?.content || "";
 
     const perguntasGenericas = [
-        "e agora",
-        "o que faço",
-        "o que eu faço",
-        "o que fazer",
-        "e agora o que faço",
-        "pronto",
-        "finalizei",
-        "terminei",
-        "acabei",
-        "já terminei",
-        "enviei tudo",
-        "acabei tudo",
-        "o que vem depois",
-        "o que devo fazer",
-        "depois disso"
+      "e agora","o que faço","o que eu faço","o que fazer",
+      "pronto","finalizei","terminei","acabei","já terminei",
+      "enviei tudo","acabei tudo","o que vem depois","o que devo fazer",
+      "depois disso"
     ];
 
     const generica = perguntasGenericas.find(p =>
@@ -91,31 +112,46 @@ app.post("/api/chat", async (req, res) => {
       });
     }
 
-    const contexto = melhores
-      .map((f, i) => `#${i + 1} Pergunta: ${f.pergunta}\nResposta: ${f.resposta}`)
+    const infosGDD = buscarInfosGDD(ultimaMensagem);
+
+    const contextoGDD = infosGDD
+      .map((i, idx) => `GDD#${idx + 1}: ${i.conteudo}`)
+      .join("\n");
+
+    const contextoFAQ = melhores
+      .map((f, i) => `FAQ#${i + 1} Pergunta: ${f.pergunta}\nResposta: ${f.resposta}`)
       .join("\n\n");
 
-    const systemPrompt = `
-    Você é a assistente virtual da Connect+, aplicativo criado para CTI Brasil — provedor de internet corporativa.
+    const contextoFinal = `
+        INFORMAÇÕES RELEVANTES DO FAQ:
+        ${contextoFAQ}
 
-    Sua função é ajudar clientes e técnicos da CTI com:
-      - Instalação e suporte de links dedicados e internet corporativa.
-      - Uso do aplicativo Connect+ (avaliações técnicas, modo AR, fotos, medições e checklists).
-      - Explicações institucionais: missão, valores e funcionamento da CTI.
-      - Orientações sobre coleta de evidências e envio de dados pelo Connect+.
+        INFORMAÇÕES DO GDD:
+        ${contextoGDD}
+            `;
 
-    Use APENAS as informações abaixo para responder:
-    ${contexto}
+            const systemPrompt = `
+        Você é a assistente virtual da Connect+, aplicativo criado para CTI Brasil — provedor de internet corporativa.
 
-    Regras:
-      - Responda com no máximo 15 palavras.
-      - Mantenha tom profissional, educado e confiante.
-      - Se o usuário perguntar sobre outro tema (esporte, política, clima etc.), diga:
-        “Posso ajudar apenas com temas da CTI e suporte técnico corporativo.”
-      - Sempre que possível, mencione o app Connect+ nas orientações.
-    `;
+        Sua função é ajudar clientes e técnicos da CTI com:
+              - Instalação e suporte de links dedicados e internet corporativa.
+              - Uso do aplicativo Connect+ (avaliações técnicas, modo AR, fotos, medições e checklists).
+              - Explicações institucionais: missão, valores e funcionamento da CTI.
+              - Orientações sobre coleta de evidências e envio de dados pelo Connect+.
 
-    
+            Use APENAS as informações abaixo para responder:
+
+        ${contextoFinal}
+
+        Regras:
+              - Responda com no máximo 15 palavras.
+              - Mantenha tom profissional, educado e confiante.
+              - Se o usuário perguntar sobre outro tema (esporte, política, clima etc.), diga:
+                “Posso ajudar apenas com temas da CTI e suporte técnico corporativo.”
+              - Sempre que possível, mencione o app Connect+ nas orientações.
+          
+            `;
+
     const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
     const apiKey = process.env.AZURE_OPENAI_KEY;
     const deploymentName = process.env.AZURE_OPENAI_DEPLOYMENT_NAME;
@@ -135,36 +171,30 @@ app.post("/api/chat", async (req, res) => {
           ...messages
         ],
         max_tokens: 30,
-        temperature: 0.4
+        temperature: 0.3
       })
     });
 
     const raw = await response.text();
     let data;
 
-    try {
-      data = JSON.parse(raw);
-    } catch (err) {
-      console.error("ERRO JSON:", raw);
+    try { data = JSON.parse(raw); }
+    catch {
       return res.json({
-        assistant: { role: "assistant", content: "Erro no retorno da Azure: " + raw }
+        assistant: { role: "assistant", content: "Erro JSON Azure: " + raw }
       });
     }
 
     if (!response.ok) {
-      console.error("ERRO AZURE:", data);
       return res.json({
         assistant: { role: "assistant", content: "Erro Azure: " + (data.error?.message || raw) }
       });
     }
-    
-      const assistant = data.choices?.[0]?.message ?? {
+
+    const assistant = data.choices?.[0]?.message ?? {
       role: "assistant",
       content: "Erro ao gerar resposta."
     };
-
-    console.log("Resposta GPT Azure:", assistant.content);
-    console.log("Tokens usados:", data.usage);
 
     return res.json({
       assistant,
@@ -177,9 +207,9 @@ app.post("/api/chat", async (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("Servidor ChatConnect ativo e online!");
-});
+app.get("/", (req, res) =>
+  res.send("Servidor ChatConnect ativo e online!")
+);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
