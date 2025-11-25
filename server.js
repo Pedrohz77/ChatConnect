@@ -10,10 +10,20 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const faq = JSON.parse(fs.readFileSync("./faqconnect.json", "utf-8"));
-const gdd = JSON.parse(fs.readFileSync("./gdd.json", "utf-8"));
+import path from "path";
+import { fileURLToPath } from "url";
 
-console.log("🟦 GDD CARREGADO (Azure ou Local):", gdd);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const faqPath = path.join(__dirname, "faqconnect.json");
+const gddPath = path.join(__dirname, "gdd.json");
+
+const faq = JSON.parse(fs.readFileSync(faqPath, "utf-8"));
+const gdd = JSON.parse(fs.readFileSync(gddPath, "utf-8"));
+
+console.log("FAQ Carregado:", faqPath);
+console.log("GDD Carregado:", gddPath)
 
 function buscarInfosGDD(pergunta) {
   const texto = pergunta.toLowerCase();
@@ -213,7 +223,5 @@ app.get("/", (req, res) =>
   res.send("Servidor ChatConnect ativo e online!")
 );
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () =>
-  console.log(`Servidor rodando em http://localhost:${PORT}`)
-);
+const PORT = process.env.PORT || process.env.WEBSITES_PORT || 8080;
+app.listen(PORT, "0.0.0.0", () => console.log(`Servidor rodando na porta ${PORT}`));
