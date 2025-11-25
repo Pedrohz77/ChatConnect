@@ -11,7 +11,6 @@ app.use(express.json());
 app.use(cors());
 
 const faq = JSON.parse(fs.readFileSync("./faqconnect.json", "utf-8"));
-
 const gdd = JSON.parse(fs.readFileSync("./gdd.json", "utf-8"));
 
 function buscarInfosGDD(pergunta) {
@@ -128,29 +127,28 @@ app.post("/api/chat", async (req, res) => {
 
         INFORMAÇÕES DO GDD:
         ${contextoGDD}
-            `;
+    `;
 
-            const systemPrompt = `
+    const systemPrompt = `
         Você é a assistente virtual da Connect+, aplicativo criado para CTI Brasil — provedor de internet corporativa.
 
         Sua função é ajudar clientes e técnicos da CTI com:
-              - Instalação e suporte de links dedicados e internet corporativa.
-              - Uso do aplicativo Connect+ (avaliações técnicas, modo AR, fotos, medições e checklists).
-              - Explicações institucionais: missão, valores e funcionamento da CTI.
-              - Orientações sobre coleta de evidências e envio de dados pelo Connect+.
+          - Instalação e suporte de links dedicados e internet corporativa.
+          - Uso do aplicativo Connect+ (avaliações técnicas, modo AR, fotos, medições e checklists).
+          - Explicações institucionais: missão, valores e funcionamento da CTI.
+          - Orientações sobre coleta de evidências e envio de dados pelo Connect+.
 
-            Use APENAS as informações abaixo para responder:
+        Use APENAS as informações abaixo para responder:
 
         ${contextoFinal}
 
         Regras:
-              - Responda com no máximo 15 palavras.
-              - Mantenha tom profissional, educado e confiante.
-              - Se o usuário perguntar sobre outro tema (esporte, política, clima etc.), diga:
-                “Posso ajudar apenas com temas da CTI e suporte técnico corporativo.”
-              - Sempre que possível, mencione o app Connect+ nas orientações.
-          
-            `;
+          - Responda com no máximo 15 palavras.
+          - Mantenha tom profissional, educado e confiante.
+          - Se o usuário perguntar sobre outro tema (esporte, política, clima etc.), diga:
+            “Posso ajudar apenas com temas da CTI e suporte técnico corporativo.”
+          - Sempre que possível, mencione o app Connect+ nas orientações.
+    `;
 
     const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
     const apiKey = process.env.AZURE_OPENAI_KEY;
@@ -195,6 +193,8 @@ app.post("/api/chat", async (req, res) => {
       role: "assistant",
       content: "Erro ao gerar resposta."
     };
+
+    console.log("TOKENS USADOS ➜ ", data.usage);
 
     return res.json({
       assistant,
