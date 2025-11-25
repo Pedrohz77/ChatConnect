@@ -32,7 +32,6 @@
     "Usuários urbanos e rurais com smartphones compatíveis com AR"
   ],
 
-
   "user_journey": {
     "abertura_app": "Assistente Bella apresenta o fluxo e instruções.",
     "informacoes_local": "Usuário preenche dados do local e tipo de link.",
@@ -55,5 +54,85 @@
     "Backend de integração com sistema CTI",
     "Banco de dados para armazenar evidências",
     "Dashboard web técnico"
-  ]
+  ],
+
+  
+  "fluxo_cpd_referencia_suporte": {
+    "descricao": "Material de referência para que a IA ajude o usuário quando ele tiver dúvidas sobre qualquer etapa do processo de levantamento de informações do CPD. A IA NÃO deve iniciar o fluxo, mas deve orientar detalhadamente qualquer etapa quando o usuário pedir.",
+    
+    "regra_principal": "A IA só explica uma etapa quando o usuário perguntar sobre ela. Não deve solicitar fotos, medições ou ações por conta própria.",
+
+    "como_a_ia_deve_ajudar": [
+      "Explicar cada etapa quando o usuário demonstrar dúvida.",
+      "Dar exemplos para facilitar o entendimento.",
+      "Sugerir como medir, identificar ambientes, marcar pontos de risco etc., mas sem pedir para o usuário realizar a ação.",
+      "Nunca iniciar o fluxo completo sozinho.",
+      "Nunca exigir envio de fotos ou dados — apenas orientar quando perguntado."
+    ],
+
+    "explicacao_etapas": {
+      "pergunta_inicial": {
+        "explicacao": "O processo começa perguntando se existe uma planta baixa. Se o usuário quiser entender o motivo dessa pergunta ou o que é uma planta baixa, a IA deve explicar que a planta ajuda a localizar salas, caminhos e o CPD visualmente."
+      },
+
+      "sem_planta_baixa": {
+        "1_quantos_ambientes": {
+          "explicacao": "Essa etapa serve para o usuário informar quantas salas, corredores ou espaços existem até chegar ao CPD. A IA pode ajudar explicando como identificar um ambiente e como contar corretamente.",
+          "como_ajudar": "A IA pode explicar o que é um ambiente, dar exemplos, orientar como percorrer o local e como fazer a contagem."
+        },
+        "2_medicoes_ambientes": {
+          "explicacao": "Essa etapa envolve medir altura e área. A IA pode explicar como medir altura, como medir largura e comprimento, e como calcular área.",
+          "como_ajudar": "A IA pode explicar técnicas de medição, ferramentas recomendadas e cuidados ao medir."
+        },
+        "3_fotos_ambientes": {
+          "explicacao": "Essa etapa envolve tirar foto de cada ambiente. Se o usuário tiver dúvida, a IA pode explicar quais ângulos são ideais e o que deve aparecer na foto.",
+          "como_ajudar": "A IA apenas dá dicas — nunca pede explicitamente as fotos."
+        },
+        "4_formulario": {
+          "explicacao": "Se houver formulário, a IA ajuda explicando campos, termos e o objetivo.",
+          "como_ajudar": "A IA pode auxiliar preenchendo dúvidas sobre cada campo."
+        },
+        "5_pontos_de_risco": {
+          "explicacao": "O usuário deve identificar itens que possam causar risco (cabos expostos, falta de ventilação, etc.).",
+          "como_ajudar": "A IA pode listar exemplos de pontos de risco, explicar o que procurar e como identificar."
+        },
+        "6_fotos_paredes_medidas": {
+          "explicacao": "A IA ajuda o usuário a entender como medir paredes e que tipo de foto seria útil.",
+          "como_ajudar": "A IA orienta técnicas, sem pedir a execução."
+        }
+      },
+
+      "com_planta_baixa": {
+        "1_enviar_planta": {
+          "explicacao": "O usuário pode enviar a planta baixa se quiser. A IA pode explicar como identificar elementos na planta.",
+          "como_ajudar": "A IA orienta leitura básica da planta."
+        },
+        "2_marcar_salas": {
+          "explicacao": "Consiste em marcar salas com pins ou números para criar um caminho até o CPD.",
+          "como_ajudar": "A IA ensina como identificar salas e como marcar caminho."
+        },
+        "3_marcar_pontos_de_risco": {
+          "explicacao": "O usuário marca os pontos de risco na planta ou no ambiente.",
+          "como_ajudar": "A IA lista exemplos de riscos e orienta o que procurar."
+        },
+        "4_pessoas_no_cpd": {
+          "explicacao": "Serve para saber se há funcionários no ambiente e quantos.",
+          "como_ajudar": "A IA explica por que isso importa para dimensionamento e segurança."
+        },
+        "5_fotos_comodos": {
+          "explicacao": "Explicação sobre como tirar boas fotos de cada cômodo.",
+          "como_ajudar": "A IA orienta enquadramento, iluminação e pontos importantes."
+        },
+        "6_medidas_altura": {
+          "explicacao": "O usuário mede altura do ambiente. A IA explica como fazer.",
+          "como_ajudar": "A IA ensina métodos e ferramentas simples."
+        },
+        "7_fotos_paredes_cpd": {
+          "explicacao": "Fotos das paredes com medidas para análise técnica.",
+          "como_ajudar": "A IA explica como medir corretamente e registrar."
+        }
+      }
+    }
+  }
 }
+
