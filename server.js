@@ -13,6 +13,8 @@ app.use(cors());
 const faq = JSON.parse(fs.readFileSync("./faqconnect.json", "utf-8"));
 const gdd = JSON.parse(fs.readFileSync("./gdd.json", "utf-8"));
 
+console.log("🟦 GDD CARREGADO (Azure ou Local):", gdd);
+
 function buscarInfosGDD(pergunta) {
   const texto = pergunta.toLowerCase();
   const palavras = texto.split(" ").filter(p => p.length > 3);
