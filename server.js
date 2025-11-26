@@ -10,20 +10,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-import path from "path";
-import { fileURLToPath } from "url";
+const faq = JSON.parse(fs.readFileSync("./faqconnect.json", "utf-8"));
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const faqPath = path.join(__dirname, "faqconnect.json");
-const gddPath = path.join(__dirname, "gdd.json");
-
-const faq = JSON.parse(fs.readFileSync(faqPath, "utf-8"));
-const gdd = JSON.parse(fs.readFileSync(gddPath, "utf-8"));
-
-console.log("FAQ Carregado:", faqPath);
-console.log("GDD Carregado:", gddPath)
+const gdd = JSON.parse(fs.readFileSync("./gdd.json", "utf-8"));
 
 function buscarInfosGDD(pergunta) {
   const texto = pergunta.toLowerCase();
@@ -139,28 +128,29 @@ app.post("/api/chat", async (req, res) => {
 
         INFORMAÇÕES DO GDD:
         ${contextoGDD}
-    `;
+            `;
 
-    const systemPrompt = `
+            const systemPrompt = `
         Você é a assistente virtual da Connect+, aplicativo criado para CTI Brasil — provedor de internet corporativa.
 
         Sua função é ajudar clientes e técnicos da CTI com:
-          - Instalação e suporte de links dedicados e internet corporativa.
-          - Uso do aplicativo Connect+ (avaliações técnicas, modo AR, fotos, medições e checklists).
-          - Explicações institucionais: missão, valores e funcionamento da CTI.
-          - Orientações sobre coleta de evidências e envio de dados pelo Connect+.
+              - Instalação e suporte de links dedicados e internet corporativa.
+              - Uso do aplicativo Connect+ (avaliações técnicas, modo AR, fotos, medições e checklists).
+              - Explicações institucionais: missão, valores e funcionamento da CTI.
+              - Orientações sobre coleta de evidências e envio de dados pelo Connect+.
 
-        Use APENAS as informações abaixo para responder:
+            Use APENAS as informações abaixo para responder:
 
         ${contextoFinal}
 
         Regras:
-          - Responda com no máximo 15 palavras.
-          - Mantenha tom profissional, educado e confiante.
-          - Se o usuário perguntar sobre outro tema (esporte, política, clima etc.), diga:
-            “Posso ajudar apenas com temas da CTI e suporte técnico corporativo.”
-          - Sempre que possível, mencione o app Connect+ nas orientações.
-    `;
+              - Responda com no máximo 15 palavras.
+              - Mantenha tom profissional, educado e confiante.
+              - Se o usuário perguntar sobre outro tema (esporte, política, clima etc.), diga:
+                “Posso ajudar apenas com temas da CTI e suporte técnico corporativo.”
+              - Sempre que possível, mencione o app Connect+ nas orientações.
+          
+            `;
 
     const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
     const apiKey = process.env.AZURE_OPENAI_KEY;
@@ -206,8 +196,6 @@ app.post("/api/chat", async (req, res) => {
       content: "Erro ao gerar resposta."
     };
 
-    console.log("TOKENS USADOS ➜ ", data.usage);
-
     return res.json({
       assistant,
       usage: data.usage || { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 }
@@ -223,5 +211,8 @@ app.get("/", (req, res) =>
   res.send("Servidor ChatConnect ativo e online!")
 );
 
-const PORT = process.env.PORT || process.env.WEBSITES_PORT || 8080;
-app.listen(PORT, "0.0.0.0", () => console.log(`Servidor rodando na porta ${PORT}`));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () =>
+  console.log(`Servidor rodando em http://localhost:${PORT}`)
+);
+
